@@ -1,0 +1,6 @@
+{
+    "name": "Shopikar Application - Development",
+    "db_pasword": "db_pwd",
+    "db_username": "db_username",
+    "connectionString": "mongodb://username:password@localhost/testdb"
+}
