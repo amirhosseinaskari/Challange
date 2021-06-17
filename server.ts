@@ -1,6 +1,6 @@
-import express, {urlencoded, json} from 'express'
+import express, {urlencoded, json, Request, Response} from 'express'
 import {ADMIN_PRODUCTS} from './endpoints/admin'
-import products from './api/products'
+import productsRouter from 'api/products'
 import debug from 'debug'
 import helmet from 'helmet'
 import mongoose from 'mongoose'
@@ -22,16 +22,24 @@ app.listen(port, () => startupDebugger(`Listening to port ${port}`))
 
 //----Admin Routes-----
 // /admin/products
-app.use(ADMIN_PRODUCTS, products)
+app.use(ADMIN_PRODUCTS, productsRouter)
 
-app.get('/', (req, res) => {
-  res.send('hello')
+app.get('/', (req: Request, res: Response) => {
+  res.send('welcome to shopikar!')
 })
 
 //----DataBase-----
-const db = async () => {
-  const connect = await mongoose.connect(config.get('connectionString'))
-  dbDebugger(connect)
-}
+mongoose.connect(
+  config.get('connectionString'),
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    user: config.get('db_username'),
+    pass: config.get('db_password'),
+  },
+  error => {
+    dbDebugger('MongoDB connection', error)
+  }
+)
 
-db()
+dbDebugger(config.get('db_username'), config.get('db_password'))
