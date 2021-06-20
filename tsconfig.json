@@ -5,14 +5,19 @@
         "target": "es6",
         "noImplicitAny": true,
         "moduleResolution": "node",
+        "resolveJsonModule": true,
         "sourceMap": true,
         "outDir": "./.ts-node",
         "baseUrl": ".",
         "allowJs": true,
         "paths": {
             "*": ["node_modules/*"],
-            "api/*": ["api/*"]
+            "api/*": ["api/*"],
+            "models/*": ["models/*"],
+            "assets/*": ["assets/*"],
+            "types/*": ["types/*"],
+            "subscribers/*": ["subscribers/*"]
         }
     },
-    "include": ["**/*.ts", "**/*.tsx", "**/*.test.js"]
+    "include": ["**/*.ts","**/*.d.ts", "**/*.tsx", "**/*.test.js"]
 }

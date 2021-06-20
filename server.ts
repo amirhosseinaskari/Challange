@@ -41,5 +41,3 @@ mongoose.connect(
     dbDebugger('MongoDB connection', error)
   }
 )
-
-dbDebugger(config.get('db_username'), config.get('db_password'))

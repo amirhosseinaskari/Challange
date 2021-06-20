@@ -1,0 +1,18 @@
+{
+   "user": {
+       "name_required": "name is required",
+       "name_minLength": "name should be min {{number}} chars",
+       "name_maxLength": "name should be max {{number}} chars",
+       "name": "don't use numbers or symbols for your name",
+       "phone_number": "your phone number is incorrect",
+       "phone_required": "phone number is required",
+       "phone_unique": "phone number already exists",
+       "mail_required": "mail is required",
+       "mail_unique": "email already exists",
+       "mail": "email format is incorrect",
+       "password_required": "password is required" ,
+       "password_minLength": "password should be min {{number}} chars",
+       "password_maxLength": "password should be max {{number}} chars",
+       "password": "password format is incorrect"
+   }
+}
