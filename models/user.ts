@@ -19,7 +19,7 @@ export const userSchema = new Schema({
       NAME_MAXLENGTH,
       t('errors:user.name_maxLength', {number: NAME_MAXLENGTH}),
     ],
-    match: [/[a-zA-Z\u0600-\u06FF\s]g/, t('errors:user.name')],
+    match: [/[a-zA-Z\u0600-\u06FF\s]/, t('errors:user.name')],
   },
 
   phone: {
@@ -37,6 +37,7 @@ export const userSchema = new Schema({
 
   password: {
     type: String,
+    required: [true, t('errors:user.password_required')],
     minLength: [
       PASS_MINlENGTH,
       t('errors.password_minLength', {number: PASS_MINlENGTH}),
@@ -45,11 +46,11 @@ export const userSchema = new Schema({
       PASS_MAXLENGTH,
       t('errors.password_maxLength', {number: PASS_MAXLENGTH}),
     ],
-    match: [/^[0-9a-zA-Z&*/$#@!~()%_-+=[]/g, t('errors.password')],
+    match: [/[0-9a-zA-Z!@#\$%\^&\*]/, t('errors.password')],
   },
 
   status: {
-    type: Boolean,
+    type: Number,
   },
   roles: {
     type: Array,

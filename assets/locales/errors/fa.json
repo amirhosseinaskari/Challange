@@ -14,5 +14,8 @@
        "password_minLength": "password should be min {{number}} chars",
        "password_maxLength": "password should be max {{number}} chars",
        "password": "password format is incorrect"
+   },
+   "auth": {
+       "user_registered": "User already registered"
    }
 }

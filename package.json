@@ -4,7 +4,7 @@
   "main": "server.ts",
   "license": "ISC",
   "scripts": {
-    "dev": "SET NODE_ENV=development, DEBUG=app:*, db_pwd=123456, db_username=amir && nodemon --watch '*.ts' --exec ts-node -r tsconfig-paths/register server.ts"
+    "dev": "SET NODE_ENV=development&&SET DEBUG=app:*&&SET db_pwd=123456&&SET db_username=amir&& nodemon --watch '*.ts' --exec ts-node -r tsconfig-paths/register server.ts"
   },
   "devDependencies": {
     "@ef-carbon/tspm": "^2.2.5",

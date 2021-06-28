@@ -10,11 +10,14 @@ export enum Roles {
   PUBLIC,
   ADMIN,
 }
-export interface IUserRegister {
+
+export enum UserStatus {
+  PHONE_VERIFIED,
+  PHONE_UNVERIFIED,
+}
+export interface IUser {
   name?: string
   phone: string
   email?: string
-  roles: Roles[]
-  password?: string
-  status: boolean
+  password: string
 }

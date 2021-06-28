@@ -16,7 +16,9 @@
             "models/*": ["models/*"],
             "assets/*": ["assets/*"],
             "types/*": ["types/*"],
-            "subscribers/*": ["subscribers/*"]
+            "subscribers/*": ["subscribers/*"],
+            "endpoints/*": ["endpoints/*"],
+            "services/*": ["services/*"]
         }
     },
     "include": ["**/*.ts","**/*.d.ts", "**/*.tsx", "**/*.test.js"]
