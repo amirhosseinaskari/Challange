@@ -5,7 +5,7 @@ import {
   NAME_MINLENGTH,
   PASS_MAXLENGTH,
   PASS_MINlENGTH,
-} from 'types/auth/user'
+} from '~types/auth/user'
 
 // user schema
 export const userSchema = new Schema({

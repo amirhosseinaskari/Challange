@@ -7,14 +7,14 @@ import {
   NAME_MINLENGTH,
   PASS_MAXLENGTH,
   PASS_MINlENGTH,
-} from 'types/auth/user'
+} from '~types/auth/user'
 
 // debuugers
 const dbDebugger = debug('app:db')
 const startupDebugger = debug('app:startup')
 
 // phone number validator => 09121234567
-export const phoneValidator = async (phone: string | null) => {
+export const phoneValidator = async (phone: string) => {
   const schema = Joi.object({
     phone: Joi.string()
       .required()
@@ -22,49 +22,53 @@ export const phoneValidator = async (phone: string | null) => {
       .messages({
         'any.required': t('errors:user.phone_required'),
         'string.pattern.base': t('errors:user.phone_number'),
+        'string.empty': t('errors:user.phone_required'),
       }),
   })
-
-  const {
-    error: {details = []},
-  } = schema.validate({phone})
-  return details[0]?.message
+  try {
+    const {
+      error: {details = []},
+    } = schema.validate({phone: phone.trim()})
+    return details[0]?.message
+  } catch (error) {
+    return null
+  }
 }
 
 // name validator (letters with min and max limitation)
-export const nameValidator = async (
-  name: string | null,
-  required: boolean = false
-) => {
-  if (!name && !required) return // if name is not required return null
+export const nameValidator = async (name: string) => {
   const schema = Joi.object({
     name: Joi.string()
       .required()
       .min(NAME_MINLENGTH)
       .max(NAME_MAXLENGTH)
-      .regex(/[a-zA-Z\u0600-\u06FF\s]/)
+      .regex(/^[a-zA-Z\u0600-\u06FF ]+$/)
       .messages({
         'any.required': t('errors:user.name_required'),
         'string.min': t('errors:user.name_minLength', {number: NAME_MINLENGTH}),
         'string.max': t('errors:user.name_maxLength', {number: NAME_MAXLENGTH}),
         'string.pattern.base': t('errors:user.name'),
+        'string.empty': t('errors:user.name_required'),
       }),
   })
-
-  const {
-    error: {details = []},
-  } = schema.validate({name})
-  return details[0]?.message
+  try {
+    const {
+      error: {details = []},
+    } = schema.validate({name: name.trim()})
+    return details[0]?.message
+  } catch (error) {
+    return null
+  }
 }
 
 // password validator with specific symbols and letters
-export const passwordValidator = async (password: string | null) => {
+export const passwordValidator = async (password: string) => {
   const schema = Joi.object({
     password: Joi.string()
       .required()
       .min(PASS_MINlENGTH)
       .max(PASS_MAXLENGTH)
-      .regex(/[A-Za-z\d$@$!%*?&=.]/)
+      .regex(/[A-Za-z\d$@$!%*?&~=.]/)
       .messages({
         'any.required': t('errors:user.password_required'),
         'string.min': t('errors:user.password_minLength', {
@@ -74,57 +78,52 @@ export const passwordValidator = async (password: string | null) => {
           number: PASS_MAXLENGTH,
         }),
         'string.pattern.base': t('errors:user.password'),
+        'string.empty': t('errors:user.password_required'),
       }),
   })
-  const {
-    error: {details = []},
-  } = schema.validate({password})
-  return details[0]?.message
+  try {
+    const {
+      error: {details = []},
+    } = schema.validate({password})
+    return details[0]?.message
+  } catch (error) {
+    return null
+  }
 }
 
 // mail validator
-export const mailValidator = async (
-  mail: string | null,
-  required: boolean = false
-) => {
-  if (!mail && !required) return // if email is not required return null
+export const mailValidator = async (mail: string) => {
   const schema = Joi.object({
     mail: Joi.string()
       .required()
       .email()
       .messages({
         'any.required': t('errors:user.mail_required'),
-        'string.mail': t('errors:user.mail'),
+        'string.email': t('errors:user.mail'),
+        'string.empty': t('errors:user.mail_required'),
       }),
   })
-  const {
-    error: {details = []},
-  } = schema.validate({mail})
-  return details[0]?.message
+  try {
+    const {
+      error: {details = []},
+    } = schema.validate({mail: mail.trim()})
+    return details[0]?.message
+  } catch (error) {
+    return null
+  }
 }
 
 // user validator => name, phone, email, password
 // return error messeges
-export const userValidator = async (
-  {phone, email, name, password}: IUser,
-  {
-    email_required = false, // if email is required
-    name_required = false, // if name is required
-  }: {email_required: boolean; name_required: boolean}
-) => {
+export const userValidator = async ({phone, email, name, password}: IUser) => {
   const phone_error = await phoneValidator(phone)
-  const email_error = await mailValidator(email, email_required)
-  const name_error = await nameValidator(name, name_required)
   const password_error = await passwordValidator(password)
+  const email_error = email && (await mailValidator(email))
+  const name_error = name && (await nameValidator(name))
+
   const has_error =
     !!phone_error || !!email_error || !!name_error || !!password_error
-  startupDebugger('error is:', {
-    phone_error,
-    email_error,
-    name_error,
-    password_error,
-    has_error,
-  })
+
   return has_error
     ? {
         phone_error,
