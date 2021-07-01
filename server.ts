@@ -1,7 +1,7 @@
 import express, {urlencoded, json, Request, Response} from 'express'
 import {ADMIN_PRODUCTS} from 'endpoints/admin'
 import productsRouter from '@api/products'
-import userRouter from '@api/auth'
+import userRouter from '@api/auth/register'
 import debug from 'debug'
 import helmet from 'helmet'
 import mongoose from 'mongoose'

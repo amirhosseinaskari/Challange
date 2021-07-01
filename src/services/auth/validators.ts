@@ -2,6 +2,7 @@ import debug from 'debug'
 import Joi from 'joi'
 import {t} from 'subscribers/i18next'
 import {
+  ILogin,
   IUser,
   NAME_MAXLENGTH,
   NAME_MINLENGTH,
@@ -14,7 +15,7 @@ const dbDebugger = debug('app:db')
 const startupDebugger = debug('app:startup')
 
 // phone number validator => 09121234567
-export const phoneValidator = async (phone: string) => {
+export const phoneValidator = async (phone?: string | null) => {
   const schema = Joi.object({
     phone: Joi.string()
       .required()
@@ -36,7 +37,7 @@ export const phoneValidator = async (phone: string) => {
 }
 
 // name validator (letters with min and max limitation)
-export const nameValidator = async (name: string) => {
+export const nameValidator = async (name?: string | null) => {
   const schema = Joi.object({
     name: Joi.string()
       .required()
@@ -62,7 +63,7 @@ export const nameValidator = async (name: string) => {
 }
 
 // password validator with specific symbols and letters
-export const passwordValidator = async (password: string) => {
+export const passwordValidator = async (password?: string | null) => {
   const schema = Joi.object({
     password: Joi.string()
       .required()
@@ -92,7 +93,7 @@ export const passwordValidator = async (password: string) => {
 }
 
 // mail validator
-export const mailValidator = async (mail: string) => {
+export const mailValidator = async (mail?: string | null) => {
   const schema = Joi.object({
     mail: Joi.string()
       .required()
@@ -129,6 +130,21 @@ export const userValidator = async ({phone, email, name, password}: IUser) => {
         phone_error,
         email_error,
         name_error,
+        password_error,
+      }
+    : null
+}
+
+// validate login info
+export const loginValidator = async ({phone, password}: ILogin) => {
+  const phone_error = await phoneValidator(phone)
+  const password_error = await passwordValidator(password)
+
+  const has_error = !!phone_error || !!password_error
+
+  return has_error
+    ? {
+        phone_error,
         password_error,
       }
     : null

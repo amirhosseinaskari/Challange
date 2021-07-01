@@ -1,22 +1,16 @@
-import debug from 'debug'
 import express, {Response, Request} from 'express'
 import {User} from 'models/user'
+import _ from 'lodash'
 import {userValidator} from 'services/auth/validators'
 import {t} from 'subscribers/i18next'
-import {IUser, Roles} from '~types/auth/user'
+import {IUser, Roles, UserStatus} from '~types/auth/user'
+import {hashPass} from '~utils/hash'
 
 const router = express.Router()
-const dbDebugger = debug('app:db')
-const startupDebugger = debug('app:startup')
+
 // register a user
 router.post('/register', async (req: Request, res: Response) => {
   const {phone, name, password, email} = req.body
-  if (!phone)
-    return res.status(400).send({phone_error: t('errors:user.phone_required')})
-  if (!password)
-    return res
-      .status(400)
-      .send({password_error: t('errors:user.password_required')})
   const error = await userValidator(req.body as IUser)
   if (error) res.status(400).send(error)
 
@@ -26,17 +20,23 @@ router.post('/register', async (req: Request, res: Response) => {
   // send error if user is registered before (is found in db)
   if (user) return res.status(400).send(t('errors:auth.user_registered'))
 
+  // hash password
+  const hashed_password = await hashPass(password)
+
   // create new user model by inputs
   user = new User({
     name,
     phone,
-    password,
+    password: hashed_password,
     email,
     roles: [Roles.PUBLIC],
+    registerDate: new Date(),
+    status: UserStatus.PHONE_UNVERIFIED,
   })
-
+  // save user to db
   await user.save()
-  return res.send({
+  const token = user.generateAuthToken()
+  return res.status(200).header('x-auth-token', token).send({
     name,
     phone,
     email,

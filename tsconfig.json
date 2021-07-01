@@ -18,7 +18,8 @@
             "~types/*": ["src/types/*"],
             "subscribers/*": ["src/subscribers/*"],
             "endpoints/*": ["src/endpoints/*"],
-            "services/*": ["src/services/*"]
+            "services/*": ["src/services/*"],
+            "~utils/*": ["src/utils/*"]
         },
         "types": ["jest", "node"],
         "lib": ["esnext"]

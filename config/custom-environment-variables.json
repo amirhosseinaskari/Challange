@@ -2,6 +2,9 @@
     "db": {
         "password": "db_pwd",
         "username": "db_username"
+    },
+    "auth": {
+        "jwt_private_key": "shopikar_jwtPrivateKey"
     }
    
 }

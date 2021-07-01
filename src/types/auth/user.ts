@@ -16,8 +16,17 @@ export enum UserStatus {
   PHONE_UNVERIFIED,
 }
 export interface IUser {
+  _id?: string
+  roles?: Roles[]
+  register_date?: Date
   name?: string
-  phone: string
+  phone?: string
   email?: string
-  password: string
+  password?: string
+  status?: UserStatus
+}
+
+export interface ILogin {
+  phone?: string
+  password?: string
 }

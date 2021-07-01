@@ -15,5 +15,7 @@ module.exports = {
       '~types/(.*)': '<rootDir>/src/types/$1',
       'endpoints/(.*)': '<rootDir>/src/endpoints/$1',
       'services/(.*)': '<rootDir>/src/services/$1',
+      '~utils/(.*)': '<rootDir>/src/utils/$1'
+
     },
   }

@@ -1,12 +1,31 @@
-import mongoose, {Schema} from 'mongoose'
+import jwt from 'jsonwebtoken'
+import mongoose, {Document, Schema} from 'mongoose'
+import config from 'config'
 import {t} from 'subscribers/i18next'
 import {
   NAME_MAXLENGTH,
   NAME_MINLENGTH,
-  PASS_MAXLENGTH,
-  PASS_MINlENGTH,
+  Roles,
+  UserStatus,
 } from '~types/auth/user'
+export interface IUserSchema extends Document {
+  name: string
+  phone: string
+  password: string
+  email: string
+  status: UserStatus
+  roles: Roles[]
+  registerDate: Date
+  generateAuthToken: Function
+}
 
+const generateAuthToken = function () {
+  const token = jwt.sign(
+    {id: this._id, status: this.status, roles: this.roles},
+    config.get('auth.jwt_private_key')
+  )
+  return token
+}
 // user schema
 export const userSchema = new Schema({
   name: {
@@ -38,15 +57,6 @@ export const userSchema = new Schema({
   password: {
     type: String,
     required: [true, t('errors:user.password_required')],
-    minLength: [
-      PASS_MINlENGTH,
-      t('errors.password_minLength', {number: PASS_MINlENGTH}),
-    ],
-    maxLength: [
-      PASS_MAXLENGTH,
-      t('errors.password_maxLength', {number: PASS_MAXLENGTH}),
-    ],
-    match: [/[0-9a-zA-Z!@#\$%\^&\*]/, t('errors.password')],
   },
 
   status: {
@@ -56,7 +66,11 @@ export const userSchema = new Schema({
     type: Array,
     required: true,
   },
+  registerDate: {
+    type: Date,
+    required: true,
+  },
 })
-
+userSchema.methods.generateAuthToken = generateAuthToken
 // create user model based on user schema
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model<IUserSchema>('User', userSchema)

@@ -3,7 +3,7 @@ import {
   nameValidator,
   passwordValidator,
   phoneValidator,
-} from './validators'
+} from 'services/auth/validators'
 import {t} from 'subscribers/i18next'
 import {
   NAME_MAXLENGTH,

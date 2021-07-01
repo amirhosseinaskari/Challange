@@ -16,6 +16,8 @@
        "password": "password format is incorrect"
    },
    "auth": {
-       "user_registered": "User already registered"
+       "user_registered": "User already registered",
+       "login": "invalid user or password",
+       "phone_verify": "verify your phone number"
    }
 }
