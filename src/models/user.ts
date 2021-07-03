@@ -19,7 +19,7 @@ export interface IUserSchema extends Document {
   generateAuthToken: Function
 }
 
-const generateAuthToken = function () {
+const generateAuthToken = async function () {
   const token = jwt.sign(
     {id: this._id, status: this.status, roles: this.roles},
     config.get('auth.jwt_private_key')

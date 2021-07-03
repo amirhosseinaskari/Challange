@@ -35,7 +35,7 @@ router.post('/register', async (req: Request, res: Response) => {
   })
   // save user to db
   await user.save()
-  const token = user.generateAuthToken()
+  const token = await user.generateAuthToken()
   return res.status(200).header('x-auth-token', token).send({
     name,
     phone,

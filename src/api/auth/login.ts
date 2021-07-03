@@ -28,6 +28,6 @@ router.post('/login', async (req: Request, res: Response) => {
   if (!is_phone_verified)
     return res.status(403).send({message: t('errors: auth.phone_verify')})
 
-  const token = user.generateAuthToken()
+  const token = await user.generateAuthToken()
   res.send(token)
 })
