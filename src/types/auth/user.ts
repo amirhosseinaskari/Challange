@@ -14,6 +14,8 @@ export enum Roles {
 export enum UserStatus {
   PHONE_VERIFIED,
   PHONE_UNVERIFIED,
+  EMAIL_VERIFIED,
+  EMAIL_UNVERIFIED,
 }
 export interface IUser {
   _id?: string
@@ -26,7 +28,17 @@ export interface IUser {
   status?: UserStatus
 }
 
+// unique item for register
+export enum UniqueItem {
+  PHONE,
+  EMAIL,
+  NAME,
+}
 export interface ILogin {
   phone?: string
+  email?: string
+  name?: string
   password?: string
+  unique_item: UniqueItem
+  item: string
 }

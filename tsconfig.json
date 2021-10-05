@@ -12,6 +12,7 @@
         "allowJs": true,
         "paths": {
             "*": ["node_modules/*"],
+            "~src/*": ["src/*"],
             "@api/*": ["src/api/*"],
             "models/*": ["src/models/*"],
             "assets/*": ["src/assets/*"],
@@ -19,7 +20,8 @@
             "subscribers/*": ["src/subscribers/*"],
             "endpoints/*": ["src/endpoints/*"],
             "services/*": ["src/services/*"],
-            "~utils/*": ["src/utils/*"]
+            "~utils/*": ["src/utils/*"],
+            "@middleware/*": ["src/middleware/*"]
         },
         "types": ["jest", "node"],
         "lib": ["esnext"]

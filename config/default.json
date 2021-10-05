@@ -1,3 +1,11 @@
 {
-    "name": "Shopikar Application"
+    "name": "Shopikar Application",
+    "auth": {
+        "jwt_private_key": ""
+    },
+    "db": {
+        "password": "",
+        "username": ""
+    },
+    "connectionString": "mongodb://localhost/shopikar_db"
 }

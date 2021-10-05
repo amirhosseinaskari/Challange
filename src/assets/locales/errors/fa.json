@@ -16,8 +16,15 @@
        "password": "password format is incorrect"
    },
    "auth": {
+       "bad_request": "bad request",
        "user_registered": "User already registered",
        "login": "invalid user or password",
-       "phone_verify": "verify your phone number"
+       "phone_verify": "verify your phone number",
+       "authentication": "access denied. no token provided",
+       "invalid_token": "invalid token"
+   },
+   "sms": {
+       "bad_request": "bad request",
+       "phone_verifiec_before": "phone is verified before"
    }
 }

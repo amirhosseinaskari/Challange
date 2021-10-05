@@ -117,7 +117,7 @@ export const mailValidator = async (mail?: string | null) => {
 // user validator => name, phone, email, password
 // return error messeges
 export const userValidator = async ({phone, email, name, password}: IUser) => {
-  const phone_error = await phoneValidator(phone)
+  const phone_error = phone && (await phoneValidator(phone))
   const password_error = await passwordValidator(password)
   const email_error = email && (await mailValidator(email))
   const name_error = name && (await nameValidator(name))
@@ -130,21 +130,6 @@ export const userValidator = async ({phone, email, name, password}: IUser) => {
         phone_error,
         email_error,
         name_error,
-        password_error,
-      }
-    : null
-}
-
-// validate login info
-export const loginValidator = async ({phone, password}: ILogin) => {
-  const phone_error = await phoneValidator(phone)
-  const password_error = await passwordValidator(password)
-
-  const has_error = !!phone_error || !!password_error
-
-  return has_error
-    ? {
-        phone_error,
         password_error,
       }
     : null

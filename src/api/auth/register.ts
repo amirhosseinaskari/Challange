@@ -3,22 +3,39 @@ import {User} from 'models/user'
 import _ from 'lodash'
 import {userValidator} from 'services/auth/validators'
 import {t} from 'subscribers/i18next'
-import {IUser, Roles, UserStatus} from '~types/auth/user'
+import {IUser, Roles, UniqueItem, UserStatus} from '~types/auth/user'
 import {hashPass} from '~utils/hash'
+import {findUser} from '~utils/findeUser'
+import randomize from 'randomatic'
+import {SMS_SERVICES} from '~types/services/sms'
+import {sendVerificationCode} from 'services/sms/verification_code'
+import {auth} from '~src/middleware/auth'
 
 const router = express.Router()
 
 // register a user
 router.post('/register', async (req: Request, res: Response) => {
-  const {phone, name, password, email} = req.body
+  const {
+    phone,
+    name,
+    password,
+    email,
+    unique_item = UniqueItem.PHONE,
+    item = phone,
+  } = req.body
   const error = await userValidator(req.body as IUser)
-  if (error) res.status(400).send(error)
+  if (error) return res.status(400).send({validator_error: error})
 
-  // find user in db
-  let user = await User.findOne({phone})
+  // if unique item is not defined
+  if (!item)
+    return res.status(400).send({message: t('errors: auth.bad_request')})
+
+  // is user registered before (check based on unique item)
+  let user = await findUser(unique_item, item)
 
   // send error if user is registered before (is found in db)
-  if (user) return res.status(400).send(t('errors:auth.user_registered'))
+  if (user)
+    return res.status(400).send({message: t('errors:auth.user_registered')})
 
   // hash password
   const hashed_password = await hashPass(password)
@@ -35,12 +52,39 @@ router.post('/register', async (req: Request, res: Response) => {
   })
   // save user to db
   await user.save()
-  const token = await user.generateAuthToken()
-  return res.status(200).header('x-auth-token', token).send({
-    name,
-    phone,
-    email,
+  return res.status(200).send({
+    id: user.id,
   })
 })
 
+// it's secure
+router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
+  const {id, status} = req.body
+  const user = await User.findById(id)
+
+  // if user not found
+  if (!user)
+    return res.status(401).send({message: t('errors: auth.authentication')})
+
+  // if user status is phone verified
+  if (status === UserStatus.PHONE_VERIFIED)
+    return res.status(400).send({
+      message: t('errors: sms.phone_verified_before'),
+      phone_verified: true,
+    })
+
+  // if user.phone doesn't exist
+  if (!user.phone)
+    return res.status(400).send({message: t('errors: sms.bad_request')})
+
+  const {sms_service = SMS_SERVICES.KAVENEGAR} = req.body
+  const message = randomize('0', 4)
+  const result = await sendVerificationCode({
+    phone: user.phone,
+    sms_service,
+    message,
+  })
+  if (!result)
+    return res.status(400).send({message: t('errors:sms.bad_request')})
+})
 export default router

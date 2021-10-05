@@ -5,6 +5,14 @@
     },
     "auth": {
         "jwt_private_key": "shopikar_jwtPrivateKey"
+    }, 
+    "services": {
+        "kavenegar": {
+            "api_key": ""
+        },
+        "zarinpal": {
+            "api_key": ""
+        }
     }
    
 }
