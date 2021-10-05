@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import mongoose, {Document, Schema} from 'mongoose'
+import mongoose, { Document, Schema } from 'mongoose'
 import config from 'config'
-import {t} from 'subscribers/i18next'
+import { t } from 'subscribers/i18next'
 import {
   NAME_MAXLENGTH,
   NAME_MINLENGTH,
@@ -15,13 +15,13 @@ export interface IUserSchema extends Document {
   email: string
   status: UserStatus
   roles: Roles[]
-  registerDate: Date
+  register_date: Date
   generateAuthToken: Function
 }
 
 const generateAuthToken = async function () {
   const token = jwt.sign(
-    {id: this._id, status: this.status, roles: this.roles},
+    { id: this._id, status: this.status, roles: this.roles },
     config.get('auth.jwt_private_key')
   )
   return token
@@ -32,11 +32,11 @@ export const userSchema = new Schema({
     type: String,
     minLength: [
       NAME_MINLENGTH,
-      t('errors:user.name_minLength', {number: NAME_MINLENGTH}),
+      t('errors:user.name_minLength', { number: NAME_MINLENGTH }),
     ],
     maxLength: [
       NAME_MAXLENGTH,
-      t('errors:user.name_maxLength', {number: NAME_MAXLENGTH}),
+      t('errors:user.name_maxLength', { number: NAME_MAXLENGTH }),
     ],
     match: [/[a-zA-Z\u0600-\u06FF\s]/, t('errors:user.name')],
   },
@@ -66,7 +66,7 @@ export const userSchema = new Schema({
     type: Array,
     required: true,
   },
-  registerDate: {
+  register_date: {
     type: Date,
     required: true,
   },

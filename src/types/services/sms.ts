@@ -4,11 +4,14 @@ export enum SMS_SERVICES {
 
 export interface IVerifyPhone {
   phone: string
-  message: string
-  sms_service?: SMS_SERVICES
 }
 
 export interface KAVENEGAR {
   phone: string
   message: string
+}
+
+export interface SMS {
+  service: SMS_SERVICES
+  data: KAVENEGAR
 }

@@ -1,11 +1,16 @@
+require('express-async-errors')
 import express, { Request, Response } from 'express'
 import debug from 'debug'
 import { middleware } from '~src/startup/middleware'
 import { db } from '~src/startup/db'
 import { routes } from '~src/startup/routes'
+import { configLogger } from '~src/startup/logger'
 
 const startupDebugger = debug('app:startup')
 const app = express()
+
+// logger configuration
+configLogger()
 
 // Middleware
 middleware(app)
