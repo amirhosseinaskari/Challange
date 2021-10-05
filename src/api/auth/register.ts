@@ -6,7 +6,6 @@ import { t } from 'subscribers/i18next'
 import { IUser, Roles, UniqueItem, UserStatus } from '~types/auth/user'
 import { hashPass } from '~utils/hash'
 import { findUser } from '~utils/findeUser'
-import { SMS_SERVICES } from '~types/services/sms'
 import { sendVerificationCode } from 'services/sms'
 import { auth } from '~src/middleware/auth'
 
@@ -22,6 +21,7 @@ router.post('/register', async (req: Request, res: Response) => {
     unique_item = UniqueItem.PHONE,
     item = phone,
   } = req.body
+
   const error = await userValidator(req.body as IUser)
   if (error) return res.status(400).send({ validator_error: error })
 
@@ -77,7 +77,6 @@ router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
     return res.status(400).send({ message: t('errors:sms.bad_request') })
 
   // send verification code by SMS message based on selected services
-  const { sms_service = SMS_SERVICES.KAVENEGAR } = req.body
   const result = await sendVerificationCode({
     phone: user.phone,
   })

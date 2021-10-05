@@ -6,12 +6,17 @@ export interface IVerifyPhone {
   phone: string
 }
 
-export interface KAVENEGAR {
+export interface INewUserSubmition {
+  phone: string
+  name: string
+}
+
+export interface IKAVENEGAR {
   phone: string
   message: string
 }
 
-export interface SMS {
+export interface ISMS {
   service: SMS_SERVICES
-  data: KAVENEGAR
+  data: IKAVENEGAR
 }
