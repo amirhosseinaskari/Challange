@@ -4,7 +4,7 @@ import {
   passwordValidator,
   phoneValidator,
 } from 'services/auth/validators'
-import {t} from 'subscribers/i18next'
+import { t } from 'subscribers/i18next'
 import {
   NAME_MAXLENGTH,
   NAME_MINLENGTH,
@@ -65,7 +65,7 @@ describe('user validators errors', () => {
       const name = Array(NAME_MINLENGTH).join('a')
       const error = await nameValidator(name)
       expect(error).toBe(
-        t('errors:user.name_minLength', {number: NAME_MINLENGTH})
+        t('errors:user.name_minLength', { number: NAME_MINLENGTH })
       )
     })
 
@@ -74,7 +74,7 @@ describe('user validators errors', () => {
       const name = new Array(NAME_MAXLENGTH + 2).join('a')
       const error = await nameValidator(name)
       expect(error).toBe(
-        t('errors:user.name_maxLength', {number: NAME_MAXLENGTH})
+        t('errors:user.name_maxLength', { number: NAME_MAXLENGTH })
       )
     })
 
@@ -104,7 +104,7 @@ describe('user validators errors', () => {
       const pass = Array(PASS_MINlENGTH).join('a')
       const error = await passwordValidator(pass)
       expect(error).toBe(
-        t('errors:user.password_minLength', {number: PASS_MINlENGTH})
+        t('errors:user.password_minLength', { number: PASS_MINlENGTH })
       )
     })
 
@@ -113,7 +113,7 @@ describe('user validators errors', () => {
       const pass = Array(PASS_MAXLENGTH + 2).join('a')
       const error = await passwordValidator(pass)
       expect(error).toBe(
-        t('errors:user.password_maxLength', {number: PASS_MAXLENGTH})
+        t('errors:user.password_maxLength', { number: PASS_MAXLENGTH })
       )
     })
 
@@ -126,6 +126,12 @@ describe('user validators errors', () => {
     // if password is valid
     it('should be password is valid', async () => {
       const error = await passwordValidator('Amir123@#$%^.*&!~')
+      expect(error).toBeNull()
+    })
+
+    // if password is valid
+    it('should be password is valid', async () => {
+      const error = await passwordValidator('123456')
       expect(error).toBeNull()
     })
   })

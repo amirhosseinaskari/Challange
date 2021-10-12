@@ -1,6 +1,6 @@
 import debug from 'debug'
 import Joi from 'joi'
-import {t} from 'subscribers/i18next'
+import { t } from 'subscribers/i18next'
 import {
   ILogin,
   IUser,
@@ -9,10 +9,6 @@ import {
   PASS_MAXLENGTH,
   PASS_MINlENGTH,
 } from '~types/auth/user'
-
-// debuugers
-const dbDebugger = debug('app:db')
-const startupDebugger = debug('app:startup')
 
 // phone number validator => 09121234567
 export const phoneValidator = async (phone?: string | null) => {
@@ -28,8 +24,8 @@ export const phoneValidator = async (phone?: string | null) => {
   })
   try {
     const {
-      error: {details = []},
-    } = schema.validate({phone: phone.trim()})
+      error: { details = [] },
+    } = schema.validate({ phone: phone.trim() })
     return details[0]?.message
   } catch (error) {
     return null
@@ -46,16 +42,20 @@ export const nameValidator = async (name?: string | null) => {
       .regex(/^[a-zA-Z\u0600-\u06FF ]+$/)
       .messages({
         'any.required': t('errors:user.name_required'),
-        'string.min': t('errors:user.name_minLength', {number: NAME_MINLENGTH}),
-        'string.max': t('errors:user.name_maxLength', {number: NAME_MAXLENGTH}),
+        'string.min': t('errors:user.name_minLength', {
+          number: NAME_MINLENGTH,
+        }),
+        'string.max': t('errors:user.name_maxLength', {
+          number: NAME_MAXLENGTH,
+        }),
         'string.pattern.base': t('errors:user.name'),
         'string.empty': t('errors:user.name_required'),
       }),
   })
   try {
     const {
-      error: {details = []},
-    } = schema.validate({name: name.trim()})
+      error: { details = [] },
+    } = schema.validate({ name: name.trim() })
     return details[0]?.message
   } catch (error) {
     return null
@@ -84,8 +84,8 @@ export const passwordValidator = async (password?: string | null) => {
   })
   try {
     const {
-      error: {details = []},
-    } = schema.validate({password})
+      error: { details = [] },
+    } = schema.validate({ password })
     return details[0]?.message
   } catch (error) {
     return null
@@ -106,8 +106,8 @@ export const mailValidator = async (mail?: string | null) => {
   })
   try {
     const {
-      error: {details = []},
-    } = schema.validate({mail: mail.trim()})
+      error: { details = [] },
+    } = schema.validate({ mail: mail.trim() })
     return details[0]?.message
   } catch (error) {
     return null
@@ -116,12 +116,16 @@ export const mailValidator = async (mail?: string | null) => {
 
 // user validator => name, phone, email, password
 // return error messeges
-export const userValidator = async ({phone, email, name, password}: IUser) => {
+export const userValidator = async ({
+  phone,
+  email,
+  name,
+  password,
+}: IUser) => {
   const phone_error = phone && (await phoneValidator(phone))
-  const password_error = await passwordValidator(password)
+  const password_error = await passwordValidator(password || null)
   const email_error = email && (await mailValidator(email))
   const name_error = name && (await nameValidator(name))
-
   const has_error =
     !!phone_error || !!email_error || !!name_error || !!password_error
 

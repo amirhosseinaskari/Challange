@@ -6,8 +6,8 @@ import userRouter from '@api/auth/register'
 
 export const routes = (app: Express) => {
   //====Admin Routes====
-  app.use(ADMIN_PRODUCTS, productsRouter) // path: ./admin/products
+  app.use(ADMIN_PRODUCTS, productsRouter) // path: api/v1/admin/products
 
   //====Authentication Routes====
-  app.use(REGISTER_USER, userRouter) // path: ./register
+  app.use(REGISTER_USER, userRouter) // path: api/v1/register
 }

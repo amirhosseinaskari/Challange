@@ -8,7 +8,5 @@
         "username": ""
     },
     "connectionString": "mongodb://localhost/shopikar_db",
-    "sms_service": {
-        "kavenegar": 0
-    }
+    "sms_service": "kavenegar"
 }

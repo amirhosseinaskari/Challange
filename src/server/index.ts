@@ -1,4 +1,3 @@
-require('express-async-errors')
 import express, { Request, Response } from 'express'
 import debug from 'debug'
 import { middleware } from '~src/startup/middleware'

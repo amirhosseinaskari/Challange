@@ -1,6 +1,15 @@
-import express, { Express, json, urlencoded } from 'express'
+import express, {
+  Express,
+  json,
+  NextFunction,
+  Request,
+  Response,
+  urlencoded,
+} from 'express'
 import helmet from 'helmet'
 import { error } from '@middleware/error'
+import { startupDebugger } from './debuggers'
+import { logger } from './logger'
 
 export const middleware = (app: Express) => {
   app.use(json())
@@ -9,5 +18,12 @@ export const middleware = (app: Express) => {
   app.use(express.static('public'))
 
   // uncaught promise handler(this middleware should be in the last line)
-  app.use(error)
+  app.use(function (
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    console.log('amir:', err.message)
+  })
 }

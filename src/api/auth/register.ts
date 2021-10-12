@@ -8,6 +8,7 @@ import { hashPass } from '~utils/hash'
 import { findUser } from '~utils/findeUser'
 import { sendVerificationCode } from 'services/sms'
 import { auth } from '~src/middleware/auth'
+import { startupDebugger } from '~src/startup/debuggers'
 
 const router = express.Router()
 
@@ -49,6 +50,7 @@ router.post('/register', async (req: Request, res: Response) => {
     register_date: new Date(),
     status: UserStatus.PHONE_UNVERIFIED,
   })
+
   // save user to db
   await user.save()
   return res.status(200).send({
@@ -83,5 +85,8 @@ router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
 
   if (!result)
     return res.status(400).send({ message: t('errors:sms.bad_request') })
+
+  res.status(200).send({ result: 'OK' })
 })
+
 export default router
