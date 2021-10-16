@@ -6,7 +6,8 @@ import { routes } from '~src/startup/routes'
 import { configLogger } from '~src/startup/logger'
 
 const startupDebugger = debug('app:startup')
-const app = express()
+
+export const app = express()
 
 // logger configuration
 configLogger()

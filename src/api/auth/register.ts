@@ -86,7 +86,8 @@ router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
   if (!result)
     return res.status(400).send({ message: t('errors:sms.bad_request') })
 
-  res.status(200).send({ result: 'OK' })
+  const token = await user.generateAuthToken()
+  res.status(200).send({ token })
 })
 
 export default router

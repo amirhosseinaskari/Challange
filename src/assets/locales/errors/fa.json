@@ -20,6 +20,7 @@
        "user_registered": "User already registered",
        "login": "invalid user or password",
        "phone_verify": "verify your phone number",
+       "not_verified": "user is not verified",
        "authentication": "access denied. no token provided",
        "invalid_token": "invalid token"
    },

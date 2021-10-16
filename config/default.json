@@ -4,8 +4,8 @@
         "jwt_private_key": ""
     },
     "db": {
-        "password": "",
-        "username": ""
+        "password": "123456",
+        "username": "amir"
     },
     "connectionString": "mongodb://localhost/shopikar_db",
     "sms_service": "kavenegar"

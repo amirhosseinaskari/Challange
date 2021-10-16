@@ -24,6 +24,6 @@ export const middleware = (app: Express) => {
     res: Response,
     next: NextFunction
   ) {
-    console.log('amir:', err.message)
+    console.log('Application - Error:', err.message)
   })
 }

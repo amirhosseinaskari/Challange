@@ -3,9 +3,9 @@ import config from 'config'
 import debug from 'debug'
 
 const dbDebugger = debug('app:db')
-
+export let connection: any = null
 export const db = () => {
-  mongoose.connect(
+  connection = mongoose.connect(
     config.get('connectionString'),
     {
       useNewUrlParser: true,

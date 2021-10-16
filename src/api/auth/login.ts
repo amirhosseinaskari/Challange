@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express'
 import { userValidator } from 'services/auth/validators'
 import { t } from 'subscribers/i18next'
-import { ILogin, UniqueItem } from '~types/auth/user'
+import { ILogin, UniqueItem, UserStatus } from '~types/auth/user'
 import { compare } from 'bcrypt'
 import { findUser } from '~utils/findeUser'
 
@@ -34,6 +34,16 @@ router.post('/login', async (req: Request, res: Response) => {
   if (!is_valid_password)
     return res.status(400).send({ message: t('errors:auth.login') })
 
+  // check verification
+  if (
+    user.status === UserStatus.PHONE_UNVERIFIED ||
+    UserStatus.EMAIL_UNVERIFIED
+  ) {
+    return res.status(403).send({ message: t('errors:auth.not_verified') })
+  }
+
   const token = await user.generateAuthToken()
-  res.send({ token })
+  res.status(200).send({ token })
 })
+
+export default router
