@@ -1,12 +1,13 @@
 import superTest from 'supertest'
-import express, { json, Request, response, Response } from 'express'
 import { app } from '~src/server'
 import { createServer, Server } from 'http'
 import supertest from 'supertest'
 import { User } from '~src/models/user'
 import { t } from '~src/subscribers/i18next'
 import { LOGIN, REGISTER } from '~src/endpoints/auth'
+import { UniqueItem } from '~src/types/auth/user'
 
+const initial_user = { name: 'amir', phone: '09124690677', password: '123456' }
 describe('Authentication Test', () => {
   let server: Server
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe('Authentication Test', () => {
 
   afterEach(async () => {
     server.close()
-    User.remove({}, () => {})
+    User.deleteMany({}, () => {})
   })
 
   const addUser = async (
@@ -25,7 +26,7 @@ describe('Authentication Test', () => {
           password: string
           phone: string
         }
-      | undefined = { name: 'amir', phone: '09124690677', password: '123456' }
+      | undefined = { ...initial_user }
   ) => {
     const req = supertest(server)
     const res = await req.post(REGISTER).send(props)
@@ -49,12 +50,21 @@ describe('Authentication Test', () => {
     })
   })
 
-  it('Should be Login', async () => {
+  it('Should be Login with phone', async () => {
     const add_new_user = await addUser()
     if (add_new_user.status !== 200) return
+    const { id } = add_new_user.body
+
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { phoneVerified: true } },
+      { new: true }
+    )
 
     // login
     const req = superTest(server)
-    const res = await req.post(LOGIN)
+    const res = await req.post(LOGIN).send({ ...initial_user, name: null })
+
+    expect(res.status).toBe(200)
   })
 })

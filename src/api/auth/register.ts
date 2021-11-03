@@ -3,17 +3,19 @@ import { User } from 'models/user'
 import _ from 'lodash'
 import { userValidator } from 'services/auth/validators'
 import { t } from 'subscribers/i18next'
-import { IUser, Roles, UniqueItem, UserStatus } from '~types/auth/user'
+import { IUser, Roles, UniqueItem } from '~types/auth/user'
 import { hashPass } from '~utils/hash'
 import { findUser } from '~utils/findeUser'
-import { sendVerificationCode } from 'services/sms'
+import { sendVerificationCodeBySMS } from 'services/sms'
 import { auth } from '~src/middleware/auth'
-import { startupDebugger } from '~src/startup/debuggers'
+import config from 'config'
+import randomCode from 'randomatic'
+import { sendVerificationCodeByEmail } from '~src/services/email'
 
 const router = express.Router()
 
 // register a user
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   const {
     phone,
     name,
@@ -48,19 +50,58 @@ router.post('/register', async (req: Request, res: Response) => {
     email,
     roles: [Roles.PUBLIC],
     register_date: new Date(),
-    status: UserStatus.PHONE_UNVERIFIED,
+    status: false,
   })
+  const code = randomCode('0', 4) as string
+  user.smsVerificationCode = code
+  user.emailVerificationCode = code
 
   // save user to db
   await user.save()
-  return res.status(200).send({
-    id: user.id,
-  })
+
+  // verification
+  let result = true
+  const hasPhoneVerification = config.get('verification.has_phone_verification')
+  const hasEmailVerification = config.get('verification.has_email_verification')
+  if (hasPhoneVerification) {
+    if (!user.phone) {
+      result = false
+      return res.status(400).send({ message: t('errors:user.phone_required') })
+    }
+    // send verification code by SMS message
+    result = await sendVerificationCodeBySMS({
+      phone: user.phone,
+      code,
+    })
+  }
+
+  if (hasEmailVerification) {
+    if (!user.email) {
+      result = false
+      return res.status(400).send({ message: t('errors:user.mail_required') })
+    }
+    // send verification code by email
+    result = await sendVerificationCodeByEmail({
+      email: user.email,
+      code,
+    })
+  }
+
+  if (!result)
+    return res.status(400).send({ message: t('errors:sms.bad_request') })
+
+  if (hasEmailVerification || hasPhoneVerification)
+    return res.status(200).send({
+      id: user.id,
+    })
+
+  const token = await user.generateAuthToken()
+  return res.status(200).send({ token })
 })
 
 // it's secure
-router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
-  const { id, status } = req.body
+router.post('/verifyPhone', async (req: Request, res: Response) => {
+  const { id, code } = req.body
   const user = await User.findById(id)
 
   // if user not found
@@ -68,7 +109,7 @@ router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
     return res.status(401).send({ message: t('errors:auth.authentication') })
 
   // if user status is phone verified
-  if (status === UserStatus.PHONE_VERIFIED)
+  if (user.phoneVerified)
     return res.status(400).send({
       message: t('errors:sms.phone_verified_before'),
       phone_verified: true,
@@ -78,16 +119,69 @@ router.post('/verifyPhone', auth, async (req: Request, res: Response) => {
   if (!user.phone)
     return res.status(400).send({ message: t('errors:sms.bad_request') })
 
-  // send verification code by SMS message based on selected services
-  const result = await sendVerificationCode({
-    phone: user.phone,
-  })
-
-  if (!result)
-    return res.status(400).send({ message: t('errors:sms.bad_request') })
+  if (code === user.smsVerificationCode) {
+  }
 
   const token = await user.generateAuthToken()
   res.status(200).send({ token })
 })
 
+// resend verification code
+router.post('/resendCode', async (req: Request, res: Response) => {
+  const { id, type } = req.body
+  const user = await User.findById(id)
+
+  // if user not found
+  if (!user)
+    return res.status(401).send({ message: t('errors:auth.authentication') })
+
+  if (type === 'phone' && user.phoneVerified)
+    return res.status(400).send({
+      message: t('errors:sms.phone_verified_before'),
+      phone_verified: true,
+    })
+
+  if (type === 'email' && user.emailVerified)
+    return res.status(400).send({
+      message: t('errors:email_verified_before'),
+      phone_verified: true,
+    })
+
+  let result = false
+  const code = randomCode('0', 4) as string
+
+  if (type === 'email' && user.email) {
+    user.emailVerificationCode = code
+    const updatedUser = await user.save()
+    if (!updatedUser)
+      return res.status(400).send({
+        message: t('errors.resend_code_failed'),
+        phone_verified: false,
+      })
+    // send verification code by email
+    result = await sendVerificationCodeByEmail({
+      email: user.email,
+      code,
+    })
+  }
+
+  if (type === 'phone' && user.phone) {
+    user.smsVerificationCode = code
+    const updatedUser = await user.save()
+    if (!updatedUser)
+      return res.status(400).send({
+        message: t('errors.resend_code_failed'),
+        phone_verified: false,
+      })
+    // send verification code by SMS message
+    result = await sendVerificationCodeBySMS({
+      phone: user.phone,
+      code,
+    })
+  }
+
+  return res.status(200).send({
+    code,
+  })
+})
 export default router

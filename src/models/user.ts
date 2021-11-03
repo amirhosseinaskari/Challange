@@ -2,18 +2,16 @@ import jwt from 'jsonwebtoken'
 import mongoose, { Document, Schema } from 'mongoose'
 import config from 'config'
 import { t } from 'subscribers/i18next'
-import {
-  NAME_MAXLENGTH,
-  NAME_MINLENGTH,
-  Roles,
-  UserStatus,
-} from '~types/auth/user'
+import { NAME_MAXLENGTH, NAME_MINLENGTH, Roles } from '~types/auth/user'
 export interface IUserSchema extends Document {
   name: string
   phone: string
   password: string
   email: string
-  status: UserStatus
+  smsVerificationCode: string
+  emailVerificationCode: string
+  emailVerified: boolean
+  phoneVerified: boolean
   roles: Roles[]
   register_date: Date
   generateAuthToken: Function
@@ -48,10 +46,22 @@ export const userSchema = new Schema({
     match: [/^[0][9][0-9]{9}$/, t('errors:user.phone_number')], // pattern for iranian mobile number
   },
 
+  smsVerificationCode: {
+    type: String,
+  },
+
+  emailVerificationCode: {
+    type: String,
+  },
+
   email: {
     type: String,
     unique: [true, t('errors:user.mail_unique')],
     match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, t('errors:user.mail')],
+  },
+
+  expirationDate: {
+    type: Date,
   },
 
   password: {
@@ -59,13 +69,19 @@ export const userSchema = new Schema({
     required: [true, t('errors:user.password_required')],
   },
 
-  status: {
-    type: Number,
+  emailVerified: {
+    type: Boolean,
   },
+
+  phoneVerified: {
+    type: Boolean,
+  },
+
   roles: {
     type: Array,
     required: true,
   },
+
   register_date: {
     type: Date,
     required: true,

@@ -1,12 +1,13 @@
 import i18next from 'i18next'
 import faCore from 'assets/locales/core/fa.json'
 import faErrors from 'assets/locales/errors/fa.json'
+import codes from 'assets/locales/errors/codes.json'
 
 export const translator = i18next.init({
-  resources: {fa: {core: faCore, errors: faErrors}},
+  resources: { fa: { core: faCore, errors: faErrors, codes: codes } },
   lng: 'fa',
   fallbackLng: 'fa',
-  preload: ['fa'],
+  preload: ['fa', 'codes'],
   ns: ['core', 'errors'],
   defaultNS: 'core',
 })

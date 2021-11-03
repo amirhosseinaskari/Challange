@@ -11,12 +11,6 @@ export enum Roles {
   ADMIN,
 }
 
-export enum UserStatus {
-  PHONE_VERIFIED,
-  PHONE_UNVERIFIED,
-  EMAIL_VERIFIED,
-  EMAIL_UNVERIFIED,
-}
 export interface IUser {
   _id?: string
   roles?: Roles[]
@@ -24,8 +18,11 @@ export interface IUser {
   name?: string
   phone?: string
   email?: string
+  emailVerificationCode?: string
+  smsVerificationCode?: string
   password?: string
-  status?: UserStatus
+  emailVerified?: boolean
+  phoneVerified?: boolean
 }
 
 // unique item for register

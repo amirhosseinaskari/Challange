@@ -7,7 +7,7 @@
        "phone_number": "your phone number is incorrect",
        "phone_required": "phone number is required",
        "phone_unique": "phone number already exists",
-       "mail_required": "mail is required",
+       "mail_required": "email is required",
        "mail_unique": "email already exists",
        "mail": "email format is incorrect",
        "password_required": "password is required" ,
@@ -22,10 +22,12 @@
        "phone_verify": "verify your phone number",
        "not_verified": "user is not verified",
        "authentication": "access denied. no token provided",
-       "invalid_token": "invalid token"
+       "invalid_token": "invalid token",
+       "email_verified_before": "email is verified before",
+       "phone_verified_before": "phone is verified before"
    },
    "sms": {
        "bad_request": "bad request",
-       "phone_verifiec_before": "phone is verified before"
+       "resend_code_failed": "something went wrong to update verification code"
    }
 }

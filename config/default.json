@@ -8,5 +8,19 @@
         "username": "amir"
     },
     "connectionString": "mongodb://localhost/shopikar_db",
-    "sms_service": "kavenegar"
+    "verification": {
+        "has_phone_verification": true,
+        "has_email_verification": false,
+        "expiration_time": 5
+    },
+    "sms_service": {
+        "name": "kavenegar",
+        "options": {
+
+        }
+    },
+    "email_service": {
+
+    }
+
 }
