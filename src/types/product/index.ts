@@ -1,5 +1,8 @@
-import { Document } from 'mongoose'
+import { Document, ObjectId } from 'mongoose'
 import { ISEO } from '../seo'
+
+export const TITLE_MINLENGTH = 1
+export const TITLE_MAXLENGTH = 100
 
 export interface IProductImage {
   alt?: string
@@ -24,8 +27,10 @@ export interface IProductSchema extends Document {
   cateogryTitles?: string[]
   createDate: Date
   description?: string
+  hasFreeDelivery: boolean
+  hasLocalPayment: boolean
   images?: IProductImage[]
-  isAvailable: boolean
+  isPublished: boolean
   oldPrice?: number
   price: number
   rate: number
@@ -39,4 +44,16 @@ export interface IProductSchema extends Document {
   tags?: ITags[]
   title: string
   voteCount: number
+}
+
+export interface IProductVariation extends Document {
+  hasDifferentPrice: boolean
+  productId: ObjectId
+  title: string
+}
+
+export interface ISubVariation extends Document {
+  price: number
+  title: string
+  variationId: ObjectId
 }

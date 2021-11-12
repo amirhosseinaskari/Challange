@@ -1,5 +1,5 @@
 {
-   "auth": {
+    "auth": {
        "authentication": "access denied. no token provided",
        "bad_request": "bad request",
        "email_verified_before": "email is verified before",
@@ -11,9 +11,11 @@
        "send_verification_code": "something went wrong on sending verification code",
        "user_registered": "User already registered"
    },
-   "product": {
-       "title_required": "title is required"
+    "product": {
+       "title_required": "title is required",
+       "rate": "rate number is out or range it should be 0 - 10"
    },
+  
     "profile": {
         "update_failed": "update is failed"
     },
@@ -36,5 +38,10 @@
         "phone_number": "your phone number is incorrect",
         "phone_required": "phone number is required",
         "phone_unique": "phone number already exists"
+    },
+    "variation": {
+        "productId_required": "productId is required",
+        "title_required": "title is required",
+        "variationId_required": "variationId is required"
     }
 }

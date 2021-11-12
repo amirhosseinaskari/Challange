@@ -1,6 +1,10 @@
-import config from 'config'
 import { t } from 'subscribers/i18next'
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import {
+  IProductSchema,
+  TITLE_MAXLENGTH,
+  TITLE_MINLENGTH,
+} from '~src/types/product'
 
 export const productSchema = new Schema({
   brandTitles: {
@@ -16,22 +20,31 @@ export const productSchema = new Schema({
   description: {
     type: String,
   },
+  hasFreeDelivery: {
+    type: Boolean,
+  },
+  hasLocalPayment: {
+    type: Boolean,
+  },
   images: {
     type: [String],
   },
-  isAvailable: {
+  isPublished: {
     type: Boolean,
-    required: true,
   },
   oldPrice: {
     type: Number,
+    min: 0,
   },
   price: {
     type: Number,
     required: true,
+    min: 0,
   },
   rate: {
     type: Number,
+    min: 0,
+    max: 10,
   },
   seo: {
     type: Object,
@@ -41,6 +54,7 @@ export const productSchema = new Schema({
   },
   soldNumber: {
     type: Number,
+    min: 0,
   },
   specialProperties: {
     type: [String],
@@ -48,12 +62,7 @@ export const productSchema = new Schema({
   stock: {
     type: Number,
     required: true,
-  },
-  subProducts: {
-    type: {
-      product: this,
-      selected: Boolean,
-    },
+    min: 0,
   },
   subTitle: {
     type: String,
@@ -66,9 +75,15 @@ export const productSchema = new Schema({
   },
   title: {
     type: String,
+    minLength: TITLE_MINLENGTH,
+    maxLength: TITLE_MAXLENGTH,
     required: [true, t('errors:product.title_required')],
   },
   voteCount: {
     type: Number,
+    min: 0,
   },
 })
+
+// create Product model based on product schema
+export const Product = mongoose.model<IProductSchema>('Product', productSchema)

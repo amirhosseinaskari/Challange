@@ -26,6 +26,6 @@
         "types": ["jest", "node"],
         "lib": ["esnext"]
     },
-    "include": ["**/*.ts","**/*.d.ts", "**/*.tsx", "**/*.test.ts"], 
+    "include": ["**/*.ts","**/*.d.ts", "**/*.tsx", "**/*.test.ts", "src/models/sub_variationts"], 
     "exclude": ["node_modules", "dist"]
 }

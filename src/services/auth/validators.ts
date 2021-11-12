@@ -1,8 +1,6 @@
-import debug from 'debug'
 import Joi from 'joi'
 import { t } from 'subscribers/i18next'
 import {
-  ILogin,
   IUser,
   NAME_MAXLENGTH,
   NAME_MINLENGTH,
