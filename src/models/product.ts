@@ -6,10 +6,10 @@ export const productSchema = new Schema({
   brandTitles: {
     type: [String],
   },
-  category_titles: {
+  categoryTitles: {
     type: [String],
   },
-  create_date: {
+  createDate: {
     type: Date,
     required: true,
   },
@@ -19,11 +19,11 @@ export const productSchema = new Schema({
   images: {
     type: [String],
   },
-  is_available: {
+  isAvailable: {
     type: Boolean,
     required: true,
   },
-  old_price: {
+  oldPrice: {
     type: Number,
   },
   price: {
@@ -39,23 +39,23 @@ export const productSchema = new Schema({
   show: {
     type: Boolean,
   },
-  sold_number: {
+  soldNumber: {
     type: Number,
   },
-  special_properties: {
+  specialProperties: {
     type: [String],
   },
   stock: {
     type: Number,
     required: true,
   },
-  sub_products: {
+  subProducts: {
     type: {
       product: this,
       selected: Boolean,
     },
   },
-  sub_title: {
+  subTitle: {
     type: String,
   },
   tags: {
@@ -68,7 +68,7 @@ export const productSchema = new Schema({
     type: String,
     required: [true, t('errors:product.title_required')],
   },
-  vote_count: {
+  voteCount: {
     type: Number,
   },
 })

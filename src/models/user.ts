@@ -47,11 +47,11 @@ export const userSchema = new Schema({
     match: [/^[0][9][0-9]{9}$/, t('errors:user.phone_number')], // pattern for iranian mobile number
   },
 
-  sms_verification_code: {
+  smsVerificationCode: {
     type: String,
   },
 
-  email_verification_doe: {
+  emailVerificationCode: {
     type: String,
   },
 
@@ -70,11 +70,11 @@ export const userSchema = new Schema({
     required: [true, t('errors:user.password_required')],
   },
 
-  email_verified: {
+  emailVerified: {
     type: Boolean,
   },
 
-  phone_verified: {
+  phoneVerified: {
     type: Boolean,
   },
 
