@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose'
 import config from 'config'
 import { t } from 'subscribers/i18next'
 import { NAME_MAXLENGTH, NAME_MINLENGTH, Roles } from '~types/auth/user'
+
 export interface IUserSchema extends Document {
   name: string
   phone: string
@@ -46,11 +47,11 @@ export const userSchema = new Schema({
     match: [/^[0][9][0-9]{9}$/, t('errors:user.phone_number')], // pattern for iranian mobile number
   },
 
-  smsVerificationCode: {
+  sms_verification_code: {
     type: String,
   },
 
-  emailVerificationCode: {
+  email_verification_doe: {
     type: String,
   },
 
@@ -60,7 +61,7 @@ export const userSchema = new Schema({
     match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, t('errors:user.mail')],
   },
 
-  expirationDate: {
+  expiration_date: {
     type: Date,
   },
 
@@ -69,11 +70,11 @@ export const userSchema = new Schema({
     required: [true, t('errors:user.password_required')],
   },
 
-  emailVerified: {
+  email_verified: {
     type: Boolean,
   },
 
-  phoneVerified: {
+  phone_verified: {
     type: Boolean,
   },
 

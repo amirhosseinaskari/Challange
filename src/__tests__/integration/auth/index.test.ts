@@ -5,7 +5,6 @@ import supertest from 'supertest'
 import { User } from '~src/models/user'
 import { t } from '~src/subscribers/i18next'
 import { LOGIN, REGISTER } from '~src/endpoints/auth'
-import { UniqueItem } from '~src/types/auth/user'
 
 const initial_user = { name: 'amir', phone: '09124690677', password: '123456' }
 describe('Authentication Test', () => {

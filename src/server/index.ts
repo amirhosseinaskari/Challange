@@ -24,9 +24,10 @@ routes(app)
 
 // PORT and Server
 const port = app.get('env.port') || 3008
-export const server = app.listen(port, () =>
-  startupDebugger(`Listening to port ${port}`)
-)
+export const server =
+  process.env.NODE_ENV !== 'test'
+    ? app.listen(port, () => startupDebugger(`Listening to port ${port}`))
+    : null
 
 // DataBase
 db()

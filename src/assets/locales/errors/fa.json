@@ -1,33 +1,40 @@
 {
-   "user": {
-       "name_required": "name is required",
-       "name_minLength": "name should be min {{number}} chars",
-       "name_maxLength": "name should be max {{number}} chars",
-       "name": "don't use numbers or symbols for your name",
-       "phone_number": "your phone number is incorrect",
-       "phone_required": "phone number is required",
-       "phone_unique": "phone number already exists",
-       "mail_required": "email is required",
-       "mail_unique": "email already exists",
-       "mail": "email format is incorrect",
-       "password_required": "password is required" ,
-       "password_minLength": "password should be min {{number}} chars",
-       "password_maxLength": "password should be max {{number}} chars",
-       "password": "password format is incorrect"
-   },
    "auth": {
-       "bad_request": "bad request",
-       "user_registered": "User already registered",
-       "login": "invalid user or password",
-       "phone_verify": "verify your phone number",
-       "not_verified": "user is not verified",
        "authentication": "access denied. no token provided",
-       "invalid_token": "invalid token",
-       "email_verified_before": "email is verified before",
-       "phone_verified_before": "phone is verified before"
-   },
-   "sms": {
        "bad_request": "bad request",
-       "resend_code_failed": "something went wrong to update verification code"
-   }
+       "email_verified_before": "email is verified before",
+       "invalid_token": "invalid token",
+       "login": "invalid user or password",
+       "not_verified": "user is not verified",
+       "phone_verified_before": "phone is verified before",
+       "phone_verify": "verify your phone number",
+       "send_verification_code": "something went wrong on sending verification code",
+       "user_registered": "User already registered"
+   },
+   "product": {
+       "title_required": "title is required"
+   },
+    "profile": {
+        "update_failed": "update is failed"
+    },
+    "sms": {
+        "bad_request": "bad request",
+        "resend_code_failed": "something went wrong to update verification code"
+   },
+    "user": {
+        "mail_required": "email is required",
+        "mail_unique": "email already exists",
+        "mail": "email format is incorrect",
+        "name_maxLength": "name should be max {{number}} chars",
+        "name_minLength": "name should be min {{number}} chars",
+        "name_required": "name is required",
+        "name": "don't use numbers or symbols for your name",
+        "password_maxLength": "password should be max {{number}} chars",
+        "password_minLength": "password should be min {{number}} chars",
+        "password_required": "password is required" ,
+        "password": "password format is incorrect",
+        "phone_number": "your phone number is incorrect",
+        "phone_required": "phone number is required",
+        "phone_unique": "phone number already exists"
+    }
 }
