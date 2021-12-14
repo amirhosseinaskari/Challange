@@ -11,6 +11,12 @@
        "send_verification_code": "something went wrong on sending verification code",
        "user_registered": "User already registered"
    },
+    "category": {
+        "title_required": "title is required"
+   },
+    "discount": {
+       "title_required": "title is required"
+   },
     "product": {
        "title_required": "title is required",
        "rate": "rate number is out or range it should be 0 - 10"

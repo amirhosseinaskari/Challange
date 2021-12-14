@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1636676758196" clover="3.2.0">
-  <project timestamp="1636676758196" name="All files">
-    <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1" elements="12" coveredelements="12" complexity="0" loc="11" ncloc="11" packages="1" files="1" classes="1"/>
-    <file name="user.ts" path="/home/amirhossein/my-projects/shopikar/app-backend/src/models/user.ts">
-      <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="1" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="26" count="1" type="stmt"/>
-      <line num="29" count="1" type="stmt"/>
-      <line num="91" count="1" type="stmt"/>
-      <line num="93" count="1" type="stmt"/>
-    </file>
+<coverage generated="1639509521329" clover="3.2.0">
+  <project timestamp="1639509521329" name="All files">
+    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="0" files="0" classes="0"/>
   </project>
 </coverage>
