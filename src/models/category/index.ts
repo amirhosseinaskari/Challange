@@ -24,6 +24,9 @@ export const categorySchema = new Schema({
     type: Number,
     required: true,
   },
+  flags: {
+    type: [String],
+  },
 })
 
 // create Category model based on category schema
