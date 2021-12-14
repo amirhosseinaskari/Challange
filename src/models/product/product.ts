@@ -1,17 +1,14 @@
 import { t } from 'subscribers/i18next'
-import mongoose, { Schema } from 'mongoose'
-import {
-  IProductSchema,
-  TITLE_MAXLENGTH,
-  TITLE_MINLENGTH,
-} from '~src/types/product'
+import mongoose, { Schema, Types } from 'mongoose'
+import { IProduct, TITLE_MAXLENGTH, TITLE_MINLENGTH } from '~src/types/product'
+import { seoSchema } from '../seo'
 
 export const productSchema = new Schema({
-  brandTitles: {
-    type: [String],
+  brandId: {
+    type: [Types._ObjectId],
   },
-  categoryTitles: {
-    type: [String],
+  categoryIds: {
+    type: [Types._ObjectId],
   },
   createDate: {
     type: Date,
@@ -47,7 +44,7 @@ export const productSchema = new Schema({
     max: 10,
   },
   seo: {
-    type: Object,
+    type: seoSchema,
   },
   show: {
     type: Boolean,
@@ -86,4 +83,4 @@ export const productSchema = new Schema({
 })
 
 // create Product model based on product schema
-export const Product = mongoose.model<IProductSchema>('Product', productSchema)
+export const Product = mongoose.model<IProduct>('Product', productSchema)

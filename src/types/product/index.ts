@@ -13,7 +13,7 @@ export interface IProductImage {
 }
 
 export interface ISubProducts {
-  product: IProductSchema
+  product: IProduct
   selected: boolean
 }
 
@@ -22,7 +22,7 @@ export interface ITags {
   title: string
 }
 
-export interface IProductSchema extends Document {
+export interface IProduct extends Document {
   brandTitles?: string[]
   cateogryTitles?: string[]
   createDate: Date

@@ -3,6 +3,9 @@ import { ISubVariation } from '~src/types/product'
 import { t } from 'subscribers/i18next'
 
 export const subVariationSchema = new Schema({
+  image: {
+    type: String,
+  },
   price: {
     type: Number,
     min: 0,
