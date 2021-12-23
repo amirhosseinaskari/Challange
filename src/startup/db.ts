@@ -8,8 +8,6 @@ export const db = () => {
   connection = mongoose.connect(
     config.get('connectionString'),
     {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       user: config.get('db.username'),
       pass: config.get('db.password'),
     },
