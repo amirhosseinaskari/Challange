@@ -4,13 +4,13 @@ import { IDiscount, CODE_MAXLENGTH, CODE_MINLENGTH } from '~src/types/discount'
 
 export const discountSchema = new Schema({
   productIds: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   userIds: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   categoryIds: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   code: {
     type: String,

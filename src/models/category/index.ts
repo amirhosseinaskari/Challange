@@ -9,7 +9,7 @@ import { seoSchema } from '../seo'
 
 export const categorySchema = new Schema({
   parentId: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   title: {
     type: String,

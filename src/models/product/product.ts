@@ -5,10 +5,10 @@ import { seoSchema } from '../seo'
 
 export const productSchema = new Schema({
   brandId: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   categoryIds: {
-    type: [Types._ObjectId],
+    type: [Types.ObjectId],
   },
   createDate: {
     type: Date,

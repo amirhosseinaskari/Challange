@@ -4,7 +4,6 @@ import { middleware } from '~src/startup/middleware'
 import { db } from '~src/startup/db'
 import { routes } from '~src/startup/routes'
 import { configLogger } from '~src/startup/logger'
-import cors from 'cors'
 
 require('dotenv').config()
 const startupDebugger = debug('app:startup')
