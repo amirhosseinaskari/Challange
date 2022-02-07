@@ -1,13 +1,13 @@
 import { compare } from 'bcrypt'
 import { Response, Request, Router } from 'express'
-import { passwordValidator } from 'services/auth/validators'
+import { passwordValidator } from '~src/services/userValidator'
 import { t } from 'subscribers/i18next'
 import { auth } from '~src/middleware/auth'
 import { User } from '~src/models/user'
 import { hashPass } from '~src/utils/hash'
 
-export const editPassword = (router: Router) => {
-  router.post('/edit_password', auth, async (req: Request, res: Response) => {
+export const changePassword = (router: Router) => {
+  router.post('/change_password', auth, async (req: Request, res: Response) => {
     const { id, old_password, new_password } = req.body
     // validate new name
     const error = await passwordValidator(new_password)

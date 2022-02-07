@@ -1,5 +1,5 @@
 {
-    "name": "Shopikar Application",
+    "name": "Challange Application",
     "auth": {
         "jwt_private_key": ""
     },
@@ -7,20 +7,5 @@
         "password": "123456",
         "username": "amir"
     },
-    "connectionString": "mongodb://localhost/shopikar_db",
-    "verification": {
-        "has_phone_verification": true,
-        "has_email_verification": false,
-        "expiration_time": 5
-    },
-    "sms_service": {
-        "name": "kavenegar",
-        "options": {
-
-        }
-    },
-    "email_service": {
-
-    }
-
+    "connectionString": "mongodb://localhost/challange_db"
 }

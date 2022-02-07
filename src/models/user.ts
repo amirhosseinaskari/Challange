@@ -2,19 +2,13 @@ import jwt from 'jsonwebtoken'
 import mongoose, { Document, Schema } from 'mongoose'
 import config from 'config'
 import { t } from 'subscribers/i18next'
-import { NAME_MAXLENGTH, NAME_MINLENGTH, Roles } from '~types/auth/user'
+import { USERNAME_MAXLENGTH, USERNAME_MINLENGTH, Roles } from '~types/auth/user'
 
 export interface IUserSchema extends Document {
-  name: string
-  phone: string
+  username: string
   password: string
-  email: string
-  smsVerificationCode: string
-  emailVerificationCode: string
-  emailVerified: boolean
-  phoneVerified: boolean
+  deposit: number
   roles: Roles[]
-  register_date: Date
   generateAuthToken: Function
 }
 
@@ -27,42 +21,24 @@ const generateAuthToken = async function () {
 }
 // user schema
 export const userSchema = new Schema({
-  name: {
+  username: {
     type: String,
     minLength: [
-      NAME_MINLENGTH,
-      t('errors:user.name_minLength', { number: NAME_MINLENGTH }),
+      USERNAME_MINLENGTH,
+      t('errors:user.USERNAME_MINLENGTH', { number: USERNAME_MINLENGTH }),
     ],
     maxLength: [
-      NAME_MAXLENGTH,
-      t('errors:user.name_maxLength', { number: NAME_MAXLENGTH }),
+      USERNAME_MAXLENGTH,
+      t('errors:user.USERNAME_MAXLENGTH', { number: USERNAME_MAXLENGTH }),
     ],
-    match: [/[a-zA-Z\u0600-\u06FF\s]/, t('errors:user.name')],
+    unique: [true, t('errors:user.username_unique')],
+    required: [true, t('errors:user.username_required')],
   },
 
-  phone: {
-    type: String,
-    unique: [true, t('errors:user.phone_unique')],
-    required: [true, t('errors:user.phone_required')],
-    match: [/^[0][9][0-9]{9}$/, t('errors:user.phone_number')], // pattern for iranian mobile number
-  },
-
-  smsVerificationCode: {
-    type: String,
-  },
-
-  emailVerificationCode: {
-    type: String,
-  },
-
-  email: {
-    type: String,
-    unique: [true, t('errors:user.mail_unique')],
-    match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, t('errors:user.mail')],
-  },
-
-  expiration_date: {
-    type: Date,
+  deposite: {
+    type: Number,
+    enum: [5, 10, 20, 50, 100],
+    required: [true, t('errors:user.deposit_required')],
   },
 
   password: {
@@ -70,21 +46,8 @@ export const userSchema = new Schema({
     required: [true, t('errors:user.password_required')],
   },
 
-  emailVerified: {
-    type: Boolean,
-  },
-
-  phoneVerified: {
-    type: Boolean,
-  },
-
   roles: {
     type: Array,
-    required: true,
-  },
-
-  register_date: {
-    type: Date,
     required: true,
   },
 })

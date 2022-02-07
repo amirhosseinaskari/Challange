@@ -1,36 +1,24 @@
 import { Response, Request, Router } from 'express'
-import { userValidator } from 'services/auth/validators'
+import { userValidator } from '~src/services/userValidator'
 import { t } from 'subscribers/i18next'
-import { UniqueItem } from '~types/auth/user'
 import { compare } from 'bcrypt'
 import { findUser } from '~utils/findeUser'
-import config from 'config'
-
-const hasPhoneVerification = config.get('verification.has_phone_verification')
-const hasEmailVerification = config.get('verification.has_email_verification')
 
 export const submit = (router: Router) => {
   router.post('/', async (req: Request, res: Response) => {
-    const {
-      phone,
-      password,
-      email,
-      name,
-      unique_item = UniqueItem.PHONE,
-      item = phone,
-    } = req.body
+    const { username, password } = req.body
 
-    // validate phone and password
-    const error = await userValidator({ phone, email, password, name })
+    // if username or password is null return bad_request error to client
+    if (!username || !password)
+      return res.status(400).send({ message: t('errors:auth.bad_request') })
+
+    // check validation of username, deposit and password
+    const error = await userValidator({ username, password })
 
     if (error) return res.status(400).send({ validator_error: error })
 
-    // if unique item is not defined
-    if (!item)
-      return res.status(400).send({ message: t('errors: auth.bad_request') })
-
     // check does user exist
-    const user = await findUser(unique_item, item)
+    const user = await findUser(username)
 
     if (!user) return res.status(400).send({ message: t('errors:auth.login') })
 
@@ -38,14 +26,6 @@ export const submit = (router: Router) => {
     const is_valid_password = await compare(password, user.password)
     if (!is_valid_password)
       return res.status(400).send({ message: t('errors:auth.login') })
-
-    // check verification
-    if (
-      (hasPhoneVerification && !user.phoneVerified) ||
-      (hasEmailVerification && !user.emailVerificationCode)
-    ) {
-      return res.status(403).send({ message: t('errors:auth.not_verified') })
-    }
 
     const token = await user.generateAuthToken()
     res.status(200).send({ token })

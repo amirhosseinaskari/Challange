@@ -4,9 +4,9 @@ import { createServer, Server } from 'http'
 import supertest from 'supertest'
 import { User } from '~src/models/user'
 import { t } from '~src/subscribers/i18next'
-import { LOGIN, REGISTER } from '~src/endpoints/auth'
+import { REGISTER } from '~src/endpoints/auth'
 
-const initial_user = { name: 'amir', phone: '09124690677', password: '123456' }
+const initial_user = { username: 'amir', password: '123456' }
 describe('Authentication Test', () => {
   let server: Server
   beforeEach(() => {
@@ -21,14 +21,13 @@ describe('Authentication Test', () => {
   const addUser = async (
     props:
       | {
-          name: string
+          username: string
           password: string
-          phone: string
         }
       | undefined = { ...initial_user }
   ) => {
     const req = supertest(server)
-    const res = await req.post(REGISTER).send(props)
+    const res = await req.post(`${REGISTER}/buyer`).send(props)
 
     return res
   }
@@ -47,23 +46,5 @@ describe('Authentication Test', () => {
     expect(res_second.body).toMatchObject({
       message: t('errors:auth.user_registered'),
     })
-  })
-
-  it('Should be Login with phone', async () => {
-    const add_new_user = await addUser()
-    if (add_new_user.status !== 200) return
-    const { id } = add_new_user.body
-
-    const user = await User.findOneAndUpdate(
-      { _id: id },
-      { $set: { phoneVerified: true } },
-      { new: true }
-    )
-
-    // login
-    const req = superTest(server)
-    const res = await req.post(LOGIN).send({ ...initial_user, name: null })
-
-    expect(res.status).toBe(200)
   })
 })

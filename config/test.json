@@ -1,5 +1,5 @@
 {
-    "name": "Shopikar Application - test",
+    "name": "Challange Application - test",
     "auth": {
         "jwt_private_key": "test"
     },
@@ -7,5 +7,5 @@
         "password": "123456",
         "username": "amir"
     },
-    "connectionString": "mongodb://localhost/shopikar_test"
+    "connectionString": "mongodb://localhost/challange_test"
 }

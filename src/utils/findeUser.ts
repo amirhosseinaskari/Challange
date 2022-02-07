@@ -1,20 +1,15 @@
 import { User } from 'models/user'
-import { Roles, UniqueItem } from '~types/auth/user'
+import { Roles } from '~types/auth/user'
 
-// check user registered before by unique element
-export const findUser = async (unique_item: UniqueItem, item: string) => {
-  switch (unique_item) {
-    case UniqueItem.PHONE:
-      return await User.findOne({ phone: item })
-    case UniqueItem.EMAIL:
-      return await User.findOne({ email: item })
-    case UniqueItem.NAME:
-      return await User.findOne({ name: item })
-    default:
-      return null
-  }
+// check username. did this username use before
+export const findUser = async (username: string) => {
+  return await User.findOne({ username: { $eq: username } })
 }
 
-export const findAdmins = async () => {
-  return await User.find({ roles: { $in: [Roles.ADMIN] } })
+export const findBuyers = async () => {
+  return await User.find({ roles: { $in: [Roles.BUYER] } })
+}
+
+export const findSellers = async () => {
+  return await User.find({ roles: { $in: [Roles.SELLER] } })
 }

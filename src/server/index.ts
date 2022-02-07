@@ -18,7 +18,7 @@ middleware(app)
 
 // Routes
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Shopikar')
+  res.send('Welcome to Challange')
 })
 
 routes(app)

@@ -4,14 +4,7 @@
         "username": "db_username"
     },
     "auth": {
-        "jwt_private_key": "shopikar_jwtPrivateKey"
-    }, 
-    "services": {
-        "kavenegar": {
-            "api_key": ""
-        },
-        "zarinpal": {
-            "api_key": ""
-        }
+        "jwt_private_key": "challange_jwtPrivateKey"
     }
+    
 }

@@ -1,18 +1,13 @@
 import express from 'express'
 import _ from 'lodash'
-import { register } from './submit'
-import { verifyPhone } from './verify_phone'
-import { sendCode } from './send_code'
+import { registerBuyer, registerSeller } from './submit'
 
 const router = express.Router()
 
-// submit user information
-register(router)
+// register buyer
+registerBuyer(router)
 
-// verify phone
-verifyPhone(router)
-
-// send verification code
-sendCode(router)
+// register seller
+registerSeller(router)
 
 export default router

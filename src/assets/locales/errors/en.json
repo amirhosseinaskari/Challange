@@ -1,0 +1,39 @@
+{
+    "auth": {
+       "authentication": "access denied. no token provided",
+       "bad_request": "bad request",
+       "invalid_token": "invalid token",
+       "login": "invalid username or password",
+       "user_registered": "User already registered"
+   },
+    "buy": {
+        "buy_badrequest": "bad request",
+        "not_enough": "you don't have enough deposit"
+   },
+    "sell": {
+        "sell_badrequest": "bad request"
+   },
+   "product": {
+       "title_required": "title is required",
+       "amount_required": "amount is required",
+       "price_required": "price is required",
+       "bad_request": "bad request"
+   },
+    "profile": {
+        "update_failed": "update is failed"
+    },
+    "user": {
+        "deposit": "deposit format is incorrect",
+        "username_maxLength": "username should be max {{number}} chars",
+        "username_minLength": "username should be min {{number}} chars",
+        "username_required": "username is required",
+        "username": "username is incorrect",
+        "username_unique": "There is already an active session using your account",
+        "deposit_required": "deposit is required",
+        "password_maxLength": "password should be max {{number}} chars",
+        "password_minLength": "password should be min {{number}} chars",
+        "password_required": "password is required" ,
+        "password": "password format is incorrect"
+        
+    }
+}
